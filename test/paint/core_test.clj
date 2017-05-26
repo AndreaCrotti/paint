@@ -64,11 +64,12 @@
       (t/are [x y desired]
           (= (core/command :set initial-img x y :V) desired)
         0 0 [[:V :O] [:O :O]]
+        0 1 [[:O :O] [:V :O]]
         1 1 [[:O :O] [:O :V]]))
 
     (t/testing "set horizontal line"
       (t/are [x desired]
-          (= (core/command :horizontal initial-img x 0 1 :V) desired)
+          (= (core/command :horizontal initial-img 0 1 x :V) desired)
         
         0 [[:V :V] [:O :O]]
         1 [[:O :O] [:V :V]]))

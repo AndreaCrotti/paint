@@ -29,7 +29,7 @@
   [_ img [x1 x2] [y1 y2] colour]
   ;; should we use core.matrix for this or not?
   (matrix/matrix
-   (matrix/set-selection img [x1 x2] [y1 y2] colour)))
+   (matrix/set-selection img [y1 y2] [x1 x2] colour)))
 
 (defmethod command :fill
   [_ img x y colour]
@@ -37,15 +37,15 @@
 
 (defmethod command :set
   [_ img x y colour]
-  (command :horizontal img x y y colour))
+  (command :region img [x x] [y y] colour))
 
 (defmethod command :horizontal
-  [_ img x y1 y2 colour]
-  (command :region img [x x] [y1 y2] colour))
-
-(defmethod command :vertical
   [_ img x1 x2 y colour]
   (command :region img [x1 x2] [y y] colour))
+
+(defmethod command :vertical
+  [_ img x y1 y2 colour]
+  (command :region img [x x] [y1 y2] colour))
 
 (defmethod command :show
   [_ img]
