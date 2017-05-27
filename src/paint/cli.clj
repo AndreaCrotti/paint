@@ -8,7 +8,7 @@
   ;; where could we add the cardinality?
   {"I" :init
    "C" :clear
-   "L" :set
+   "L" :single-pixel
    "V" :vertical
    "H" :horizontal
    "F" :fill

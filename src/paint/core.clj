@@ -35,7 +35,7 @@
   [_ img x y colour]
   [])
 
-(defmethod command :set
+(defmethod command :single-pixel
   [_ img x y colour]
   (command :region img [x x] [y y] colour))
 

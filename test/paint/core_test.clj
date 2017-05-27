@@ -62,7 +62,7 @@
   (let [initial-img (core/command :init 2 2)]
     (t/testing "set single pixel"
       (t/are [x y desired]
-          (= (core/command :set initial-img x y :V) desired)
+          (= (core/command :single-pixel initial-img x y :V) desired)
         1 1 [[:V :O] [:O :O]]
         1 2 [[:O :O] [:V :O]]
         2 2 [[:O :O] [:O :V]]))
