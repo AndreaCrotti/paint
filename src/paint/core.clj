@@ -105,39 +105,3 @@
 (defmethod command :quit
   [_]
   (System/exit 0))
-
-(def OPS [inc dec identity])
-
-(defn detect-colour
-  [img colour]
-  (remove
-   nil?
-   (for [x (range (matrix/row-count img))
-         y (range (matrix/column-count img))]
-     (if (= colour (get-in img [x y]))
-       [x y]))))
-
-
-(defn detect-region
-  ([img x y colour region]
-   ;; check all the points that are not already part of the region
-   )
-  ([img x y colour]
-   (detect-region img x y colour #{[x y]})))
-
-;; (def img (command :init 3 3))
-;; (detect-region img 1 1 :O)
-
-;; (matrix/set-selection [[1 2] [3 4]] [0 1] [0 1] "A")
-;; ;; set-indices is the function we actually need in this case
-;; (matrix/set-indices [[1 2] [3 4]] [[0 0] [1 1]] "A")
-
-;; Flood-fill (node, target-color, replacement-color):
-;;  1. If target-color is equal to replacement-color, return.
-;;  2. If the color of node is not equal to target-color, return.
-;;  3. Set the color of node to replacement-color.
-;;  4. Perform Flood-fill (one step to the south of node, target-color, replacement-color).
-;;     Perform Flood-fill (one step to the north of node, target-color, replacement-color).
-;;     Perform Flood-fill (one step to the west of node, target-color, replacement-color).
-;;     Perform Flood-fill (one step to the east of node, target-color, replacement-color).
-;;  5. Return.

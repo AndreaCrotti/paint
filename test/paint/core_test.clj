@@ -91,13 +91,3 @@
 
       [[core/WHITE core/WHITE]
        [core/WHITE core/WHITE]] [0 0] :YELLOW #{[0 0] [1 0] [0 1] [1 1]})))
-
-(t/deftest coordinates-by-colour-test
-  (t/testing "simple colour detection"
-    (t/are [img colour coords]
-        (= coords (core/detect-colour img colour))
-      [[core/WHITE core/WHITE]
-       [core/WHITE core/WHITE]] core/WHITE [[0 0] [0 1] [1 0] [1 1]]
-
-      [[core/WHITE :Y]
-       [core/WHITE core/WHITE]] :Y [[0 1]])))
