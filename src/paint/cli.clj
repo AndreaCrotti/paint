@@ -61,10 +61,10 @@
 
       (println "Ignoring command " op " until an image is initialized")
       
-      (if (= op :show)
-        (println (core/command :show @IMAGE))
-        
-        (reset! IMAGE (apply cmd args))))))
+      (cond
+        (= op :show) (println (core/command :show @IMAGE))
+        (= op :init) (reset! IMAGE (apply core/init (map inc args)))
+        :else (reset! IMAGE (apply cmd args))))))
 
 (defn -main
   [& args]

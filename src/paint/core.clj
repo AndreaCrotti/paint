@@ -16,8 +16,8 @@
   the indexing from 1 and not from 0"
   [[x y] img]
   (and (>= x 0) (>= y 0)
-       (< x (matrix/column-count img))
-       (< y (matrix/row-count img))))
+       (<= x (matrix/column-count img))
+       (<= y (matrix/row-count img))))
 
 (defn- north
   [[x y]]
@@ -64,14 +64,14 @@
 (defmulti command
   (fn [cmd & args] cmd))
 
-(defmethod command :init
-  [_ ncols nrows]
-  (command :clear (matrix/zero-matrix nrows ncols)))
-
 (defmethod command :clear
   [_ img]
   (matrix/matrix
    (matrix/fill img WHITE)))
+
+(defn init
+  [ncols nrows]
+  (command :clear (matrix/zero-matrix nrows ncols)))
 
 (defmethod command :region
   [_ img xs ys colour]
@@ -81,7 +81,7 @@
 
 (defmethod command :fill
   [_ img x y colour]
-  (let [indices (fill-coordinates img x y colour)]
+  (let [indices (fill-coordinates img [x y] colour)]
     (matrix/set-indices img indices colour)))
 
 (defmethod command :single-pixel
