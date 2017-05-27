@@ -33,14 +33,16 @@
      (if (or
           (contains? coords coord)
           (not= (get-in img coord) old-colour))
-       ;; base step of the induction, 
        coords
-       (let [c-incl (union coords #{coord})
-             c-north (fill-coordinates img (move :north coord) old-colour new-colour c-incl)
-             c-east (fill-coordinates img (move :east coord) old-colour new-colour c-north)
-             c-south (fill-coordinates img (move :south coord) old-colour new-colour c-east)
-             c-west (fill-coordinates img (move :west coord) old-colour new-colour c-south)]
-         c-west))))
+       (letfn [(rec-call [direction filled-coords]
+                 (fill-coordinates img (move direction coord) old-colour new-colour filled-coords))]
+
+         (let [c-incl (union coords #{coord})
+               c-north (rec-call :north c-incl)
+               c-east (rec-call :east c-north)
+               c-south (rec-call :south c-east)]
+
+           (rec-call :west c-south))))))
 
   ([img coord new-colour]
    (let [old-colour (get-in img coord)]
