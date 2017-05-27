@@ -1,6 +1,7 @@
 (ns paint.core
   (:require [clojure.core.matrix :as matrix]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [clojure.math.combinatorics :refer [cartesian-product]]))
 
 (def WHITE :O)
 (def char-to-keyword
@@ -56,3 +57,23 @@
 (defmethod command :quit
   [_]
   (System/exit 0))
+
+(def OPS [inc dec identity])
+
+(defn valid-coord?
+  "Check if the given coordinate is valid, starting
+  the indexing from 1 and not from 0"
+  [[x y] img]
+  (and (>= x 1) (>= y 1)
+       (<= x (matrix/column-count img))
+       (<= y (matrix/row-count img))))
+
+(defn neighbour-coordinates
+  "Return all the neighbour coordinates by doing a cartesian product
+  on the functions that need to be applied an remove the coordinated
+  passed in"
+  [[x y] board]
+  (sort
+   (filter #(not= % [x y])
+           (for [ops (cartesian-product OPS OPS)]
+             ((apply juxt ops) x)))))
