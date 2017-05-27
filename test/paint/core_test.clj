@@ -12,18 +12,18 @@
 
 (defn- all-whites?
   [img]
-  (true? (every? #(= core/WHITE %) (core/vals img))))
+  (true? (every? #(= core/WHITE %) (core/pixels img))))
 
 (def dimension-gen (gen/choose 1 100))
 
 (def in-empty-img-all-whites
   (prop/for-all [ncols dimension-gen nrows dimension-gen]
-                (let [img (core/command :init nrows ncols)]
+                (let [img (core/command :init ncols nrows)]
                   (all-whites? img))))
 
 (def is-empty-image-right-size
   (prop/for-all [ncols dimension-gen nrows dimension-gen]
-                (let [img (core/command :init nrows ncols)]
+                (let [img (core/command :init ncols nrows)]
                   (and
                    (= nrows (count img))
                    (every? #(= ncols %) (map count img))))))
@@ -46,7 +46,7 @@
    (let [nrows (-> image matrix/row-count)
          ncols (-> image matrix/column-count)
          cleared (core/command :clear image)]
-     (= cleared (core/command :init nrows ncols)))))
+     (= cleared (core/command :init ncols nrows)))))
 
 (defspec cleared-img-equal-empty-image-spec
   100

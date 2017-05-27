@@ -9,7 +9,7 @@
 
 (def COLOURS (map char-to-keyword (range (int \a) (inc (int \z)))))
 
-(defn vals
+(defn pixels
   [img]
   (apply concat img))
 
@@ -17,7 +17,7 @@
   (fn [cmd & args] cmd))
 
 (defmethod command :init
-  [_ nrows ncols]
+  [_ ncols nrows]
   (command :clear (matrix/zero-matrix nrows ncols)))
 
 (defmethod command :clear
