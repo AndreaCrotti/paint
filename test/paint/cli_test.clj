@@ -8,4 +8,4 @@
   (t/testing "init command parsed correctly"
     (let [[op args] (cli/parse-command "I 5 6")]
       (t/is (= op :init))
-      (t/is (= args [5 6])))))
+      (t/is (= args [4 5])))))

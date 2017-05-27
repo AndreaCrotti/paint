@@ -63,23 +63,41 @@
     (t/testing "set single pixel"
       (t/are [x y desired]
           (= (core/command :single-pixel initial-img x y :V) desired)
-        1 1 [[:V :O] [:O :O]]
-        1 2 [[:O :O] [:V :O]]
-        2 2 [[:O :O] [:O :V]]))
+        0 0 [[:V core/WHITE] [core/WHITE core/WHITE]]
+        0 1 [[core/WHITE core/WHITE] [:V core/WHITE]]
+        1 1 [[core/WHITE core/WHITE] [core/WHITE :V]]))
 
     (t/testing "set horizontal line"
       (t/are [x desired]
-          (= (core/command :horizontal initial-img 1 2 x :V) desired)
+          (= (core/command :horizontal initial-img 0 1 x :V) desired)
         
-        1 [[:V :V] [:O :O]]
-        2 [[:O :O] [:V :V]]))
+        0 [[:V :V] [core/WHITE core/WHITE]]
+        1 [[core/WHITE core/WHITE] [:V :V]]))
 
     (t/testing "set vertical line"
       (t/are [y desired]
-          (= (core/command :vertical initial-img 1 2 y :V))
+          (= (core/command :vertical initial-img 0 1 y :V))
         
-        1 [[:V :O] [:V :O]]
-        2 [[:O :V] [:O :V]]))))
+        0 [[:V core/WHITE] [:V core/WHITE]]
+        1 [[core/WHITE :V] [core/WHITE :V]]))))
 
 ;; add an idempotency property, any command
 ;; can be re-run multiple times and the result won't change
+
+(t/deftest fill-coordinates-test
+  (t/testing "Flood fill"
+    (t/are [img coord new coords]
+        (= coords (core/fill-coordinates img coord new))
+
+      [[core/WHITE core/WHITE]
+       [core/WHITE core/WHITE]] [0 0] :YELLOW #{[0 0] [1 0] [0 1] [1 1]})))
+
+(t/deftest coordinates-by-colour-test
+  (t/testing "simple colour detection"
+    (t/are [img colour coords]
+        (= coords (core/detect-colour img colour))
+      [[core/WHITE core/WHITE]
+       [core/WHITE core/WHITE]] core/WHITE [[0 0] [0 1] [1 0] [1 1]]
+
+      [[core/WHITE :Y]
+       [core/WHITE core/WHITE]] :Y [[0 1]])))

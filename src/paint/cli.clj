@@ -19,12 +19,21 @@
   "Commands that don't need the image passed as argument"
   #{:init :quit})
 
+(defn- parse-int
+  "This interpreter is using indexes from 1, while core.matrix
+  indexes array starting from 0.
+  So we just decrement while parsing the argument directly"
+  [n]
+  (-> n
+      Integer/parseInt
+      dec))
+
 (defn parse-args
   [args]
   (if (<= (count args) 2)
-    (map #(Integer/parseInt %) args)
+    (map parse-int args)
     (let [[pre lst] (split-at (dec (count args)) args)]
-      (concat (map #(Integer/parseInt %) pre) lst))))
+      (concat (map parse-int pre) lst))))
 
 (defn parse-command
   "Read a command from string and return its code
@@ -56,15 +65,6 @@
         (println (core/command :show @IMAGE))
         
         (reset! IMAGE (apply cmd args))))))
-
-;; (handle-line "I 3 3")
-;; @IMAGE
-;; (handle-line "C")
-
-;; (handle-line "L 0 2 A")
-;; (apply (partial core/command :set @IMAGE) [0 2 "A"])
-;; (core/command :set @IMAGE 0 0 "A")
-;; (handle-line "H 0 1 0 B")
 
 (defn -main
   [& args]
