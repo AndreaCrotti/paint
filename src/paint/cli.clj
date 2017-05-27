@@ -63,7 +63,7 @@
       
       (cond
         (= op :show) (println (core/command :show @IMAGE))
-        (= op :init) (reset! IMAGE (apply core/init (map inc args)))
+        (= op :init) (reset! IMAGE (apply cmd (map inc args)))
         :else (reset! IMAGE (apply cmd args))))))
 
 (defn -main

@@ -19,8 +19,8 @@
   (matrix/matrix
    (matrix/fill img WHITE)))
 
-(defn init
-  [ncols nrows]
+(defmethod command :init
+  [_ ncols nrows]
   (command :clear (matrix/zero-matrix nrows ncols)))
 
 (defmethod command :region

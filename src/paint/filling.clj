@@ -16,8 +16,8 @@
    :south [inc identity]
    :west [identity dec]})
 
-
 (defn move
+  "Transform the coordinate to the given cardinal direction"
   [direction coord]
   (vec
    (let [funcs (direction directions)]
