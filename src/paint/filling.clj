@@ -25,6 +25,11 @@
        (f v)))))
 
 (defn fill-coordinates
+  "Recursive function that generates all the coordinates
+  which need to be filled in with the new colour.
+  It's inspired by the flood-fill algorithm, but had to be
+  heavily modified since there is no mutation here."
+
   ([img coord old-colour new-colour coords]
    (if (or (= new-colour old-colour)
            ;; when outside of the range no need for the extra check
