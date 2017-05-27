@@ -23,31 +23,26 @@
 
 (def dimension-gen (gen/choose 1 100))
 
-(def in-empty-img-all-whites
+(defspec init-all-white
+  100
   (prop/for-all [ncols dimension-gen nrows dimension-gen]
                 (let [img (core/command :init ncols nrows)]
                   (all-whites? img))))
 
-(def is-empty-image-right-size
+(defspec init-right-size
+  100
   (prop/for-all [ncols dimension-gen nrows dimension-gen]
                 (let [img (core/command :init ncols nrows)]
                   (and
                    (= nrows (count img))
                    (every? #(= ncols %) (map count img))))))
 
-(defspec init-all-white
-  100
-  in-empty-img-all-whites)
-
-(defspec init-right-size
-  100
-  is-empty-image-right-size)
-
 (def gen-image
   (gen/let [[nrows ncols] (gen/vector gen/s-pos-int 2)]
     (gen/vector (gen/vector (gen/elements COLOURS) ncols) nrows)))
 
-(def cleared-img-equal-empty-image
+(defspec cleared-img-equal-empty-image-spec
+  100
   (prop/for-all
    [image gen-image]
    (let [nrows (-> image matrix/row-count)
@@ -55,14 +50,11 @@
          cleared (core/command :clear image)]
      (= cleared (core/command :init ncols nrows)))))
 
-(defspec cleared-img-equal-empty-image-spec
-  100
-  cleared-img-equal-empty-image)
-
 (t/deftest img-show-test
   (t/testing "empty image generates matrix of O"
     (let [new-image (core/command :init 2 2)
-          shown (core/command :show new-image)]
+          shown (core/img-to-string new-image)]
+
       (t/is (= shown "O O\nO O")))))
 
 (t/deftest command-test

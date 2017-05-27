@@ -52,7 +52,12 @@
   (let [[op args] (parse-command line)
         cmd (if (contains? NO-IMG-COMMANDS op)
               (partial core/command op)
-              (partial core/command op @IMAGE))]
+              (partial core/command op @IMAGE))
+        ;; this adjustment is a bit of a hack, but it's just done because
+        ;; the :init is the only command that wants numeric arguments
+        ;; as they are. All the other arguments get decremented to be
+        ;; able to index from 0 instead of from 1
+        args-adj (if (= op :init) (map inc args) args)]
 
     (if (and
          (nil? @IMAGE)
@@ -60,11 +65,7 @@
          (not= op :init))
 
       (println "Ignoring command " op " until an image is initialized")
-      
-      (cond
-        (= op :show) (println (core/command :show @IMAGE))
-        (= op :init) (reset! IMAGE (apply cmd (map inc args)))
-        :else (reset! IMAGE (apply cmd args))))))
+      (reset! IMAGE (apply cmd args-adj)))))
 
 (defn -main
   [& args]

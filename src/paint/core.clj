@@ -8,6 +8,7 @@
 (def WHITE :O)
 
 (defn pixels
+  "Return all the pixels as a simple list of colours"
   [img]
   (apply concat img))
 
@@ -46,11 +47,16 @@
   [_ img x y1 y2 colour]
   (command :region img [x x] [y1 y2] colour))
 
-(defmethod command :show
-  [_ img]
+(defn img-to-string
+  [img]
   (clojure.string/join
    "\n"
    (map #(clojure.string/join " " (map name %)) img)))
+
+(defmethod command :show
+  [_ img]
+  (println (img-to-string img))
+  img)
 
 (defmethod command :quit
   [_]
