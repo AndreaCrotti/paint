@@ -1,10 +1,17 @@
 (ns paint.core-test
   (:require [clojure.test :as t]
             [paint.core :as core]
+            [clojure.string :as string]
             [clojure.core.matrix :as matrix]
             [clojure.test.check.properties :as prop]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.clojure-test :refer [defspec]]))
+
+(def char-to-keyword
+  "Transform a char into an uppercased keyword"
+  (comp keyword string/upper-case str char))
+
+(def COLOURS (map char-to-keyword (range (int \a) (inc (int \z)))))
 
 (defn- rectangular-matrix?
   [img]
@@ -38,7 +45,7 @@
 
 (def gen-image
   (gen/let [[nrows ncols] (gen/vector gen/s-pos-int 2)]
-    (gen/vector (gen/vector (gen/elements core/COLOURS) ncols) nrows)))
+    (gen/vector (gen/vector (gen/elements COLOURS) ncols) nrows)))
 
 (def cleared-img-equal-empty-image
   (prop/for-all
@@ -83,11 +90,3 @@
 
 ;; add an idempotency property, any command
 ;; can be re-run multiple times and the result won't change
-
-(t/deftest fill-coordinates-test
-  (t/testing "Flood fill"
-    (t/are [img coord new coords]
-        (= coords (core/fill-coordinates img coord new))
-
-      [[core/WHITE core/WHITE]
-       [core/WHITE core/WHITE]] [0 0] :YELLOW #{[0 0] [1 0] [0 1] [1 1]})))

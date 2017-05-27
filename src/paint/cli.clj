@@ -69,5 +69,5 @@
 (defn -main
   [& args]
   (doseq [line (line-seq (java.io.BufferedReader. *in*))]
-    (println "> " line)
+    (println ">" line)
     (handle-line line)))
