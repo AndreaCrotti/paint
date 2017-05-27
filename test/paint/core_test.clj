@@ -63,23 +63,23 @@
     (t/testing "set single pixel"
       (t/are [x y desired]
           (= (core/command :set initial-img x y :V) desired)
-        0 0 [[:V :O] [:O :O]]
-        0 1 [[:O :O] [:V :O]]
-        1 1 [[:O :O] [:O :V]]))
+        1 1 [[:V :O] [:O :O]]
+        1 2 [[:O :O] [:V :O]]
+        2 2 [[:O :O] [:O :V]]))
 
     (t/testing "set horizontal line"
       (t/are [x desired]
-          (= (core/command :horizontal initial-img 0 1 x :V) desired)
+          (= (core/command :horizontal initial-img 1 2 x :V) desired)
         
-        0 [[:V :V] [:O :O]]
-        1 [[:O :O] [:V :V]]))
+        1 [[:V :V] [:O :O]]
+        2 [[:O :O] [:V :V]]))
 
     (t/testing "set vertical line"
       (t/are [y desired]
-          (= (core/command :vertical initial-img 0 1 y :V))
-
-        0 [[:V :O] [:V :O]]
-        1 [[:O :V] [:O :V]]))))
+          (= (core/command :vertical initial-img 1 2 y :V))
+        
+        1 [[:V :O] [:V :O]]
+        2 [[:O :V] [:O :V]]))))
 
 ;; add an idempotency property, any command
 ;; can be re-run multiple times and the result won't change

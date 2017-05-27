@@ -26,10 +26,10 @@
    (matrix/fill img WHITE)))
 
 (defmethod command :region
-  [_ img [x1 x2] [y1 y2] colour]
+  [_ img xs ys colour]
   ;; should we use core.matrix for this or not?
   (matrix/matrix
-   (matrix/set-selection img [y1 y2] [x1 x2] colour)))
+   (matrix/set-selection img (map dec ys) (map dec xs) colour)))
 
 (defmethod command :fill
   [_ img x y colour]
