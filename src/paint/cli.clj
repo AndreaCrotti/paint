@@ -29,11 +29,14 @@
       dec))
 
 (defn parse-args
+  "Given a list of arguments parse the numbers and the letter
+  at the end separately, under the assumption that there can
+  only be one final letter after a variable number of numbers"
   [args]
   (if (<= (count args) 2)
     (map parse-int args)
     (let [[pre lst] (split-at (dec (count args)) args)]
-      (concat (map parse-int pre) lst))))
+      (concat (map parse-int pre) (map keyword lst)))))
 
 (defn parse-command
   "Read a command from string and return its code
@@ -59,13 +62,11 @@
         ;; able to index from 0 instead of from 1
         args-adj (if (= op :init) (map inc args) args)]
 
-    (if (and
-         (nil? @IMAGE)
-         ;; the IMAGE should always be the first argument passed??
-         (not= op :init))
-
+    (if (and (nil? @IMAGE) (not= op :init))
       (println "Ignoring command " op " until an image is initialized")
       (reset! IMAGE (apply cmd args-adj)))))
+
+;; (handle-line "I 3 3")
 
 (defn -main
   [& args]
