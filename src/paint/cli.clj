@@ -2,10 +2,12 @@
   (:require [clojure.tools.cli :as cli]
             [paint.core :as core]))
 
-(def IMAGE (atom nil))
+(def IMAGE
+  "This program side effect is encapsulated only in this atom,
+  which contains the current image that is currently being worked on."
+  (atom nil))
 
 (def COMMANDS
-  ;; where could we add the cardinality?
   {"I" :init
    "C" :clear
    "L" :single-pixel
