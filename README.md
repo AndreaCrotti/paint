@@ -6,7 +6,8 @@ Create an abstract image and allow to operate over it.
 
 ## Usage
 
-It's an interactive program that interprets line by line to see an example usage run:
+It's an interactive program that interprets instructions line by line.
+To see an example usage just run:
 
     lein run < sample_input.txt
     
