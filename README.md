@@ -9,8 +9,10 @@ Create an abstract image and allow to operate over it.
 It's an interactive program that interprets line by line to see an example usage run:
 
     lein run < sample_input.txt
-
+    
 ## Rationale
+
+### Implementation
 
 An image is just represented as a vector of vector of keywords.
 
@@ -28,6 +30,22 @@ the whole list of coordinates, without actually doing any mutation to the image 
 
 This algorithm (inspired from the flood-fill algorithm) moves in the 4 cardinal directions recursively
 until every part of the image with the same colour has been discovered.
+
+### Testing
+
+Tests are written with a mix of `core.test` and `clojure.test.check` generative tests.
+Properties of the system that can for example be tested like this could be for example:
+
+- a new img has all white pixels
+- clearing an existing image is the same as creating a new one withe the same dimensions
+- every operation is idempotent, so running it more than once on the same image doesn't change that image
+
+There are many different generators composed together to accomplish that, a particuarly interesting is
+`gen-image`, which allows to generate random images, which however still satisfy the general properties of the
+system (rectangular matrix and containing colours represented as keywords).
+
+    (gen/sample gen-image)
+    ([[:O]] [[:G]] [[:A :E :T] [:S :A :T]] [[:J :W] [:F :X] [:T :J]] [[:C :O :B :S] [:K :B :V :R] [:P :K :O :A]])
 
 ## License
 
