@@ -28,7 +28,12 @@
   "Recursive function that generates all the coordinates
   which need to be filled in with the new colour.
   It's inspired by the flood-fill algorithm, but had to be
-  heavily modified since there is no mutation here."
+  heavily modified since there is no mutation here.
+
+  It's important to keep in mind that this will potentially
+  generate a stack overflow if the matrix is too big, so
+  use it at your own risk (using flood-fill on a mutable
+  data structure would be much more performant anyway)."
 
   ([img coord old-colour new-colour coords]
    (if (or (= new-colour old-colour)
