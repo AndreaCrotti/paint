@@ -45,7 +45,7 @@ There are many different generators composed together to accomplish that, a part
 system (rectangular matrix and containing colours represented as keywords).
 
     (gen/sample gen-image)
-    ([[:O]] [[:G]] [[:A :E :T] [:S :A :T]] [[:J :W] [:F :X] [:T :J]] [[:C :O :B :S] [:K :B :V :R] [:P :K :O :A]])
+    => ([[:O]] [[:G]] [[:A :E :T] [:S :A :T]] [[:J :W] [:F :X] [:T :J]] [[:C :O :B :S] [:K :B :V :R] [:P :K :O :A]])
 
 ## License
 
