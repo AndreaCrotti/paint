@@ -40,7 +40,7 @@ Properties of the system that can for example be tested like this could be for e
 - clearing an existing image is the same as creating a new one withe the same dimensions
 - every operation is idempotent, so running it more than once on the same image doesn't change that image
 
-There are many different generators composed together to accomplish that, a particuarly interesting is
+There are many different generators composed together to accomplish that, a particularly interesting is
 `gen-image`, which allows to generate random images, which however still satisfy the general properties of the
 system (rectangular matrix and containing colours represented as keywords).
 
