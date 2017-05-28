@@ -2,7 +2,6 @@
   (:require [clojure.core.matrix :as matrix]
             [clojure.string :as string]
             [clojure.set :refer [union]]
-            [clojure.math.combinatorics :refer [cartesian-product]]
             [paint.filling :refer [fill-coordinates]]))
 
 (def WHITE :O)
