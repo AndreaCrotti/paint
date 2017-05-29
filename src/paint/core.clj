@@ -57,6 +57,10 @@
   (println (img-to-string img))
   img)
 
+(defmethod command :unknown
+  [_]
+  (println "Ignoring unnknown command"))
+
 (defmethod command :quit
   [_]
   (System/exit 0))

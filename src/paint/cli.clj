@@ -19,7 +19,7 @@
 
 (def NO-IMG-COMMANDS
   "Commands that don't need the image passed as argument"
-  #{:init :quit})
+  #{:init :quit :unknown})
 
 (defn- parse-int
   "This interpreter is using indexes from 1, while core.matrix
@@ -48,8 +48,7 @@
         op (first split)
         args (parse-args (rest split))]
 
-    (when (contains? COMMANDS op)
-      [(get COMMANDS op) args])))
+    [(get COMMANDS op :unknown) args]))
 
 (defn handle-line
   "Handle a line and reset the image given the command"
