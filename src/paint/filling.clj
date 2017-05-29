@@ -19,10 +19,8 @@
 (defn move
   "Transform the coordinate to the given cardinal direction"
   [direction coord]
-  (vec
-   (let [funcs (direction directions)]
-     (for [[f v] (zipmap funcs coord)]
-       (f v)))))
+  (mapv
+   (fn [func c] (func c)) (direction directions) coord))
 
 (defn fill-coordinates
   "Recursive function that generates all the coordinates
