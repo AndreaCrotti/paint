@@ -34,11 +34,10 @@
   data structure would be much more performant anyway)."
 
   ([img coord old-colour new-colour coords]
-   (if (or (= new-colour old-colour)
-           ;; when outside of the range no need for the extra check
-           (not (valid-coord? coord img))
-           (contains? coords coord)
-           (not= (get-in img coord) old-colour))
+   (if (or
+        (not (valid-coord? coord img))
+        (contains? coords coord)
+        (not= (get-in img coord) old-colour))
      coords
      (letfn [(rec-call [direction filled-coords]
                (fill-coordinates img (move direction coord) old-colour new-colour filled-coords))]
@@ -51,5 +50,8 @@
             (rec-call :west)))))
 
   ([img coord new-colour]
-   (let [old-colour (get-in img coord)]
-     (fill-coordinates img coord old-colour new-colour #{}))))
+   (let [old-colour (get-in img coord)
+         initial-coords #{}]
+     (if (= new-colour old-colour)
+       initial-coords
+       (fill-coordinates img coord old-colour new-colour initial-coords)))))
