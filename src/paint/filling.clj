@@ -45,7 +45,8 @@
        (letfn [(rec-call [direction filled-coords]
                  (fill-coordinates img (move direction coord) old-colour new-colour filled-coords))]
 
-         (->> (union coords #{coord})
+         (->> #{coord}
+              (union coords)
               (rec-call :north)
               (rec-call :east)
               (rec-call :south)
