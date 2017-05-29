@@ -10,4 +10,4 @@
         (= coords (filling/fill-coordinates img coord new))
 
       [[WHITE WHITE]
-       [WHITE WHITE]] [0 0] :YELLOW #{[0 0] [1 0] [0 1] [1 1]})))
+       [WHITE WHITE]] [0 0] :Y #{[0 0] [1 0] [0 1] [1 1]})))

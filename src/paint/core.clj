@@ -25,7 +25,6 @@
 
 (defmethod command :region
   [_ img xs ys colour]
-  ;; should we use core.matrix for this or not?
   (matrix/matrix
    (matrix/set-selection img ys xs colour)))
 
@@ -57,6 +56,7 @@
   (println (img-to-string img))
   img)
 
+;; could use :default as well here potentially?
 (defmethod command :unknown
   [_]
   (println "Ignoring unnknown command"))

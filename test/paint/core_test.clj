@@ -1,33 +1,25 @@
 (ns paint.core-test
   (:require [clojure.test :as t]
             [paint.core :as core]
+            [paint.generators :refer [dimension-gen gen-image]]
             [clojure.string :as string]
             [clojure.core.matrix :as matrix]
             [clojure.test.check.properties :as prop]
-            [clojure.test.check.generators :as gen]
             [clojure.test.check.clojure-test :refer [defspec]]))
-
-(def char-to-keyword
-  "Transform a char into an uppercased keyword"
-  (comp keyword string/upper-case str char))
-
-(def COLOURS (map char-to-keyword (range (int \a) (inc (int \z)))))
 
 (defn- rectangular-matrix?
   [img]
   (apply matrix/same-shape? img))
 
-(defn- all-whites?
-  [img]
-  (true? (every? #(= core/WHITE %) (core/pixels img))))
-
-(def dimension-gen (gen/choose 1 100))
+(defn- single-coloured?
+  [img colour]
+  (every? #(= colour %) (core/pixels img)))
 
 (defspec init-all-white
   100
   (prop/for-all [ncols dimension-gen nrows dimension-gen]
                 (let [img (core/command :init ncols nrows)]
-                  (all-whites? img))))
+                  (single-coloured? img core/WHITE))))
 
 (defspec init-right-size
   100
@@ -37,9 +29,6 @@
                    (= nrows (count img))
                    (every? #(= ncols %) (map count img))))))
 
-(def gen-image
-  (gen/let [[nrows ncols] (gen/vector gen/s-pos-int 2)]
-    (gen/vector (gen/vector (gen/elements COLOURS) ncols) nrows)))
 
 (defspec cleared-img-equal-empty-image-spec
   100
@@ -78,7 +67,10 @@
           (= (core/command :vertical initial-img 0 1 y :V))
         
         0 [[:V core/WHITE] [:V core/WHITE]]
-        1 [[core/WHITE :V] [core/WHITE :V]]))))
+        1 [[core/WHITE :V] [core/WHITE :V]]))
 
-;; add an idempotency property, any command
-;; can be re-run multiple times and the result won't change
+    (t/testing "fill in region"
+      (let [img (core/command :init 3 3)
+            filled-in (core/command :fill img 0 0 :V)]
+        (t/is (single-coloured? img core/WHITE))
+        (t/is (single-coloured? filled-in :V))))))
