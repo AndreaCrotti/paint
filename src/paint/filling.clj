@@ -45,12 +45,11 @@
        (letfn [(rec-call [direction filled-coords]
                  (fill-coordinates img (move direction coord) old-colour new-colour filled-coords))]
 
-         (let [c-incl (union coords #{coord})
-               c-north (rec-call :north c-incl)
-               c-east (rec-call :east c-north)
-               c-south (rec-call :south c-east)]
-
-           (rec-call :west c-south))))))
+         (->> (union coords #{coord})
+              (rec-call :north)
+              (rec-call :east)
+              (rec-call :south)
+              (rec-call :west))))))
 
   ([img coord new-colour]
    (let [old-colour (get-in img coord)]
