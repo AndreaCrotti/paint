@@ -36,21 +36,19 @@
   ([img coord old-colour new-colour coords]
    (if (or (= new-colour old-colour)
            ;; when outside of the range no need for the extra check
-           (not (valid-coord? coord img)))
+           (not (valid-coord? coord img))
+           (contains? coords coord)
+           (not= (get-in img coord) old-colour))
      coords
-     (if (or
-          (contains? coords coord)
-          (not= (get-in img coord) old-colour))
-       coords
-       (letfn [(rec-call [direction filled-coords]
-                 (fill-coordinates img (move direction coord) old-colour new-colour filled-coords))]
+     (letfn [(rec-call [direction filled-coords]
+               (fill-coordinates img (move direction coord) old-colour new-colour filled-coords))]
 
-         (->> #{coord}
-              (union coords)
-              (rec-call :north)
-              (rec-call :east)
-              (rec-call :south)
-              (rec-call :west))))))
+       (->> #{coord}
+            (union coords)
+            (rec-call :north)
+            (rec-call :east)
+            (rec-call :south)
+            (rec-call :west)))))
 
   ([img coord new-colour]
    (let [old-colour (get-in img coord)]
