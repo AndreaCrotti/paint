@@ -48,6 +48,18 @@ system (rectangular matrix and containing colours represented as keywords).
     (gen/sample gen-image)
     => ([[:O]] [[:G]] [[:A :E :T] [:S :A :T]] [[:J :W] [:F :X] [:T :J]] [[:C :O :B :S] [:K :B :V :R] [:P :K :O :A]])
 
+## Possible improvements
+
+- [ ] defprotocol? 
+- [ ] performances with very big images
+- [ ] multi image with a map in the atom keyed by image id
+- [ ] better split between show and quit and the other manipulations
+- [ ] parse arguments could be done with regular expressions instead
+- [ ] could use swap instead of reset? 
+- [ ] better prompt 
+- [ ] define more colour and not just white 
+- [ ] command function name? 
+
 ## License
 
 Copyright © 2017 Andrea Crotti
